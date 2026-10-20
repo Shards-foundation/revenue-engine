@@ -1,6 +1,6 @@
 pytest==9.0.3
 playwright==1.40.0
-pytest-playwright==0.4.3
+pytest-playwright==0.7.2
 sentry-sdk==2.56.0
 prisma==0.11.0
 requests==2.33.0

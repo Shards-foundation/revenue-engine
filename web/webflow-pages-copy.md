@@ -3,9 +3,12 @@
 ## Homepage (index.html)
 
 ### Hero Section
+
 **Headline:** Transform Your Marketing with AI-Powered Copy That Converts
 
-**Subheadline:** Get weekly ad creatives, landing page copy, and email sequences crafted by advanced AI — designed to boost your conversion rates and save you hours of work.
+**Subheadline:** Get weekly ad creatives, landing page copy, and email sequences
+crafted by advanced AI — designed to boost your conversion rates and save you
+hours of work.
 
 **CTA Primary:** Start Your Free Trial  
 **CTA Secondary:** See How It Works
@@ -15,9 +18,11 @@
 ---
 
 ### Problem Section
+
 **Headline:** Stop Wasting Time on Copy That Doesn't Convert
 
 **Pain Points:**
+
 - Spending hours writing ad copy that falls flat
 - Missing deadlines because you're stuck on headlines
 - Paying expensive copywriters for inconsistent results
@@ -26,28 +31,38 @@
 ---
 
 ### Solution Section
+
 **Headline:** AI CopyKit: Your 24/7 Conversion Copywriter
 
 **Features Grid:**
 
-**1. Weekly Ad Creatives**
-Generate 10+ high-converting ad variations every week across all major platforms (Facebook, Google, LinkedIn, TikTok).
+#### 1. Weekly Ad Creatives
 
-**2. Landing Page Copy**
-Complete landing page copy with headlines, subheadlines, CTAs, and body copy optimized for conversion.
+Generate 10+ high-converting ad variations every week across all major platforms
+(Facebook, Google, LinkedIn, TikTok).
 
-**3. Email Sequences**
-Pre-written email flows for welcome series, nurture campaigns, and promotional blasts.
+#### 2. Landing Page Copy
 
-**4. A/B Testing Variants**
+Complete landing page copy with headlines, subheadlines, CTAs, and body copy
+optimized for conversion.
+
+#### 3. Email Sequences
+
+Pre-written email flows for welcome series, nurture campaigns, and promotional
+blasts.
+
+#### 4. A/B Testing Variants
+
 Automatic generation of multiple copy variants for split testing.
 
 ---
 
 ### Pricing Section
+
 **Headline:** Choose Your Growth Plan
 
-**Plan 1: CopyKit Monthly**
+#### Plan 1: CopyKit Monthly
+
 - **Price:** £49/month
 - **Features:**
   - Weekly ad creative packs (10+ variants)
@@ -57,7 +72,8 @@ Automatic generation of multiple copy variants for split testing.
   - Priority support
 - **CTA:** Start Monthly Plan
 
-**Plan 2: CopyKit Full Funnel Pack**
+#### Plan 2: CopyKit Full Funnel Pack
+
 - **Price:** £199 one-time
 - **Features:**
   - Complete funnel copy (awareness → conversion)
@@ -68,7 +84,8 @@ Automatic generation of multiple copy variants for split testing.
   - Lifetime access
 - **CTA:** Get Full Funnel Pack
 
-**Plan 3: Daily Briefing**
+#### Plan 3: Daily Briefing
+
 - **Price:** £15/month or £99/year
 - **Features:**
   - Daily market insights
@@ -81,50 +98,63 @@ Automatic generation of multiple copy variants for split testing.
 ---
 
 ### Testimonials Section
+
 **Headline:** Trusted by 500+ Marketers & Founders
 
 **Testimonial 1:**
-"CopyKit cut my ad creative time from 4 hours to 15 minutes. The AI understands my brand voice better than most copywriters I've hired."
+"CopyKit cut my ad creative time from 4 hours to 15 minutes. The AI understands
+my brand voice better than most copywriters I've hired."
 — Sarah Chen, Growth Marketing Lead
 
 **Testimonial 2:**
-"The Full Funnel Pack paid for itself in the first week. Our conversion rate jumped 34% after implementing the landing page copy."
+"The Full Funnel Pack paid for itself in the first week. Our conversion rate
+jumped 34% after implementing the landing page copy."
 — Marcus Rodriguez, SaaS Founder
 
 **Testimonial 3:**
-"The Daily Briefing keeps me ahead of market trends. It's like having a research team working overnight."
+"The Daily Briefing keeps me ahead of market trends. It's like having a research
+team working overnight."
 — James Thompson, Day Trader
 
 ---
 
 ### FAQ Section
+
 **Headline:** Frequently Asked Questions
 
 **Q: How is this different from ChatGPT?**
-A: CopyKit is purpose-built for conversion copywriting with specialized prompts, competitor analysis, and proven frameworks. It's trained on high-converting copy, not general text.
+A: CopyKit is purpose-built for conversion copywriting with specialized prompts,
+competitor analysis, and proven frameworks. It's trained on high-converting
+copy, not general text.
 
 **Q: Can I cancel anytime?**
-A: Yes! Monthly subscriptions can be cancelled anytime. You'll retain access until the end of your billing period.
+A: Yes! Monthly subscriptions can be cancelled anytime. You'll retain access
+until the end of your billing period.
 
 **Q: What if I'm not satisfied?**
 A: We offer a 7-day money-back guarantee on all purchases. No questions asked.
 
 **Q: Do you support multiple brands?**
-A: Yes! You can create separate brand profiles with different voice, tone, and positioning.
+A: Yes! You can create separate brand profiles with different voice, tone, and
+positioning.
 
 **Q: How quickly do I get my copy?**
-A: Monthly subscribers receive weekly deliveries every Monday. Full Funnel Pack customers get everything within 48 hours.
+A: Monthly subscribers receive weekly deliveries every Monday. Full Funnel Pack
+customers get everything within 48 hours.
 
 ---
 
 ### Final CTA Section
+
 **Headline:** Ready to Transform Your Marketing?
 
-**Subheadline:** Join 500+ marketers who've already boosted their conversions with AI-powered copy.
+**Subheadline:** Join 500+ marketers who've already boosted their conversions
+with AI-powered copy.
 
 **CTA:** Start Your Free Trial Today
 
 **Trust Badges:**
+
 - 7-Day Money-Back Guarantee
 - Secure Payment via Stripe & PayPal
 - Cancel Anytime
@@ -135,15 +165,20 @@ A: Monthly subscribers receive weekly deliveries every Monday. Full Funnel Pack 
 ## Pricing Page (pricing.html)
 
 ### Hero
+
 **Headline:** Simple, Transparent Pricing
 
-**Subheadline:** Choose the plan that fits your growth stage. All plans include our conversion-focused AI engine.
+**Subheadline:** Choose the plan that fits your growth stage. All plans include
+our conversion-focused AI engine.
 
 ### Pricing Cards
+
 (Same as homepage pricing section, but with expanded feature lists)
 
 ### Payment Options
+
 **Stripe Checkout Embed:**
+
 ```html
 <stripe-pricing-table 
   pricing-table-id="prctbl_xxxxx"
@@ -152,6 +187,7 @@ A: Monthly subscribers receive weekly deliveries every Monday. Full Funnel Pack 
 ```
 
 **PayPal Alternative:**
+
 ```html
 <div id="paypal-button-container"></div>
 <script>
@@ -176,18 +212,22 @@ A: Monthly subscribers receive weekly deliveries every Monday. Full Funnel Pack 
 
 ## Thank You Page (thank-you.html)
 
-### Hero
+### Thank You Hero
+
 **Headline:** Welcome to CopyKit! 🎉
 
-**Subheadline:** Your account is being set up. Check your email for access instructions.
+**Subheadline:** Your account is being set up. Check your email for access
+instructions.
 
 ### What Happens Next
-**Step 1:** Check your email (from hello@copykit.io)  
+
+**Step 1:** Check your email (from <hello@copykit.io>)  
 **Step 2:** Access your private Notion workspace  
 **Step 3:** Download your first copy pack  
 **Step 4:** Start implementing and watch conversions grow
 
 ### CTA
+
 **Button:** Access Your Dashboard
 
 ---
@@ -195,20 +235,24 @@ A: Monthly subscribers receive weekly deliveries every Monday. Full Funnel Pack 
 ## Members Area (members.html)
 
 ### Dashboard
+
 **Headline:** Welcome back, [Name]!
 
 **Quick Stats:**
+
 - Copy Packs Delivered: 12
 - Downloads This Month: 8
 - Next Delivery: Monday, Oct 21
 
 ### Resources Grid
+
 - **Latest Copy Pack** (Download)
 - **Brand Voice Settings** (Edit)
 - **Request Custom Brief** (Form)
 - **Support** (Chat)
 
 ### Gated Content (Daily Briefing)
+
 - Today's briefing article
 - Audio player (ElevenLabs TTS)
 - Video clip (InVideo)
@@ -220,19 +264,22 @@ A: Monthly subscribers receive weekly deliveries every Monday. Full Funnel Pack 
 
 ### Product Setup (Stripe Dashboard)
 
-**Product 1: CopyKit Monthly**
+#### Product 1: CopyKit Monthly
+
 - Name: CopyKit Monthly Subscription
 - Price: £49.00 GBP / month
 - Billing: Recurring monthly
 - Metadata: `sku=COPYKIT-MONTHLY`
 
-**Product 2: CopyKit Bundle**
+#### Product 2: CopyKit Bundle
+
 - Name: CopyKit Full Funnel Pack
 - Price: £199.00 GBP
 - Billing: One-time
 - Metadata: `sku=COPYKIT-BUNDLE`
 
-**Product 3: Daily Briefing**
+#### Product 3: Daily Briefing
+
 - Name: Daily Briefing Monthly
 - Price: £15.00 GBP / month
 - Billing: Recurring monthly
@@ -244,7 +291,8 @@ A: Monthly subscribers receive weekly deliveries every Monday. Full Funnel Pack 
 // Create Stripe Checkout Session
 const stripe = Stripe('pk_live_xxxxx');
 
-document.getElementById('checkout-button').addEventListener('click', async () => {
+document.getElementById('checkout-button')
+  .addEventListener('click', async () => {
   const { error } = await stripe.redirectToCheckout({
     lineItems: [{
       price: 'price_xxxxx', // Price ID from Stripe
@@ -324,6 +372,7 @@ document.getElementById('checkout-button').addEventListener('click', async () =>
 ## Webflow Embed Codes
 
 ### Stripe Pricing Table Embed
+
 ```html
 <script async src="https://js.stripe.com/v3/pricing-table.js"></script>
 <stripe-pricing-table 
@@ -333,6 +382,7 @@ document.getElementById('checkout-button').addEventListener('click', async () =>
 ```
 
 ### PayPal Smart Buttons
+
 ```html
 <div id="paypal-container-monthly"></div>
 <div id="paypal-container-bundle"></div>
@@ -341,6 +391,7 @@ document.getElementById('checkout-button').addEventListener('click', async () =>
 ```
 
 ### Analytics Tracking
+
 ```html
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
@@ -371,13 +422,15 @@ document.getElementById('checkout-button').addEventListener('click', async () =>
 ## DNS & Cloudflare Setup
 
 ### DNS Records
-```
+
+```text
 A     @       192.0.2.1       (Proxied)
 CNAME www     yourdomain.com  (Proxied)
 CNAME api     yourdomain.com  (Proxied)
 ```
 
 ### Cloudflare Page Rules
+
 1. **Cache Everything:** `yourdomain.com/*` → Cache Level: Cache Everything
 2. **Force HTTPS:** `http://yourdomain.com/*` → Always Use HTTPS
 3. **API Bypass:** `yourdomain.com/api/*` → Cache Level: Bypass
@@ -408,4 +461,3 @@ if (!user) {
   window.location.href = '/login'
 }
 ```
-
