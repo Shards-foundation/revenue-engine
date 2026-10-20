@@ -2,9 +2,12 @@
 
 ## Overview
 
-The Revenue Engine API is a Flask-based REST API that handles webhook processing, order fulfillment, lead management, and analytics for the autonomous revenue generation system.
+The Revenue Engine API is a Flask-based REST API that handles webhook
+processing, order fulfillment, lead management, and analytics for the autonomous
+revenue generation system.
 
-**Base URL**: `https://api.copykit.io` (production) or `http://localhost:5000` (development)
+**Base URL**: `https://api.copykit.io` (production) or `http://localhost:5000`
+(development)
 
 ## Authentication
 
@@ -21,6 +24,7 @@ curl -H "X-API-Key: your-api-key" https://api.copykit.io/health
 - **Lead creation**: 20 requests per minute
 
 Rate limit headers are included in responses:
+
 - `X-RateLimit-Limit`: Request limit per window
 - `X-RateLimit-Remaining`: Remaining requests in current window
 - `X-RateLimit-Reset`: Time when the rate limit resets
@@ -34,6 +38,7 @@ Rate limit headers are included in responses:
 Check the health status of the API and its dependencies.
 
 **Response:**
+
 ```json
 {
   "status": "healthy",
@@ -50,6 +55,7 @@ Check the health status of the API and its dependencies.
 ```
 
 **Status Codes:**
+
 - `200`: All systems healthy
 - `503`: Service degraded or unhealthy
 
@@ -62,10 +68,12 @@ Check the health status of the API and its dependencies.
 Handle Stripe webhook events for payment processing.
 
 **Headers:**
+
 - `Content-Type: application/json`
 - `Stripe-Signature: webhook_signature`
 
 **Supported Events:**
+
 - `checkout.session.completed`
 - `customer.subscription.created`
 - `customer.subscription.updated`
@@ -74,6 +82,7 @@ Handle Stripe webhook events for payment processing.
 - `charge.dispute.created`
 
 **Response:**
+
 ```json
 {
   "received": true
@@ -81,6 +90,7 @@ Handle Stripe webhook events for payment processing.
 ```
 
 **Status Codes:**
+
 - `200`: Webhook processed successfully
 - `400`: Invalid content type or payload
 - `401`: Invalid signature
@@ -90,15 +100,18 @@ Handle Stripe webhook events for payment processing.
 Handle PayPal webhook events for payment processing.
 
 **Headers:**
+
 - `Content-Type: application/json`
 
 **Supported Events:**
+
 - `PAYMENT.CAPTURE.COMPLETED`
 - `BILLING.SUBSCRIPTION.CREATED`
 - `BILLING.SUBSCRIPTION.CANCELLED`
 - `PAYMENT.CAPTURE.REFUNDED`
 
 **Response:**
+
 ```json
 {
   "received": true
@@ -114,6 +127,7 @@ Handle PayPal webhook events for payment processing.
 Create a new lead in the system.
 
 **Request Body:**
+
 ```json
 {
   "email": "user@example.com",
@@ -129,6 +143,7 @@ Create a new lead in the system.
 ```
 
 **Response:**
+
 ```json
 {
   "id": "uuid",
@@ -147,6 +162,7 @@ Create a new lead in the system.
 ```
 
 **Status Codes:**
+
 - `200`: Lead already exists
 - `201`: Lead created successfully
 - `400`: Invalid request data
@@ -161,6 +177,7 @@ Create a new lead in the system.
 Fetch data from the CopyKit URL and return structured information.
 
 **Response:**
+
 ```json
 {
   "status": "success",
@@ -181,6 +198,7 @@ Fetch data from the CopyKit URL and return structured information.
 Get CopyKit product data with real-time pricing and availability.
 
 **Response:**
+
 ```json
 {
   "status": "success",
@@ -209,6 +227,7 @@ Get CopyKit product data with real-time pricing and availability.
 Get CopyKit analytics and performance data.
 
 **Response:**
+
 ```json
 {
   "status": "success",
@@ -252,6 +271,7 @@ Get CopyKit analytics and performance data.
 Manually trigger CopyKit fulfillment for an order.
 
 **Request Body:**
+
 ```json
 {
   "order_id": "uuid"
@@ -259,6 +279,7 @@ Manually trigger CopyKit fulfillment for an order.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -271,6 +292,7 @@ Manually trigger CopyKit fulfillment for an order.
 Manually trigger Daily Briefing fulfillment for an order.
 
 **Request Body:**
+
 ```json
 {
   "order_id": "uuid"
@@ -278,6 +300,7 @@ Manually trigger Daily Briefing fulfillment for an order.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -294,9 +317,11 @@ Manually trigger Daily Briefing fulfillment for an order.
 Get daily KPI records.
 
 **Query Parameters:**
+
 - `days` (optional): Number of days to retrieve (default: 30)
 
 **Response:**
+
 ```json
 [
   {
@@ -321,6 +346,7 @@ Get daily KPI records.
 Update or create daily KPI record.
 
 **Request Body:**
+
 ```json
 {
   "date": "2025-01-27",
@@ -335,6 +361,7 @@ Update or create daily KPI record.
 ```
 
 **Response:**
+
 ```json
 {
   "date": "2025-01-27",
@@ -395,23 +422,29 @@ When request validation fails, the API returns detailed error information:
 
 ### Stripe Webhooks
 
-Stripe webhooks are verified using the `Stripe-Signature` header. The signature is validated against the webhook secret configured in the `STRIPE_WEBHOOK_SECRET` environment variable.
+Stripe webhooks are verified using the `Stripe-Signature` header. The signature
+is validated against the webhook secret configured in the
+`STRIPE_WEBHOOK_SECRET` environment variable.
 
 ### PayPal Webhooks
 
-PayPal webhook verification is implemented but may be disabled in development mode. In production, proper PayPal webhook signature verification should be implemented.
+PayPal webhook verification is implemented but may be disabled in development
+mode. In production, proper PayPal webhook signature verification should be
+implemented.
 
 ---
 
-## Rate Limiting
+## Rate Limiting Implementation
 
-The API implements rate limiting using Flask-Limiter with Redis as the storage backend. Rate limits are applied per IP address and can be customized per endpoint.
+The API implements rate limiting using Flask-Limiter with Redis as the storage
+backend. Rate limits are applied per IP address and can be customized per
+endpoint.
 
 ### Rate Limit Headers
 
 All responses include rate limiting information:
 
-```
+```text
 X-RateLimit-Limit: 1000
 X-RateLimit-Remaining: 999
 X-RateLimit-Reset: 1643284800
@@ -424,6 +457,7 @@ X-RateLimit-Reset: 1643284800
 ### Health Checks
 
 The `/health` endpoint provides comprehensive health information including:
+
 - Database connectivity
 - External service status (Stripe, PayPal)
 - System uptime
@@ -432,6 +466,7 @@ The `/health` endpoint provides comprehensive health information including:
 ### Logging
 
 All API requests and errors are logged with structured logging including:
+
 - Request method and path
 - Response status code
 - Processing time
@@ -441,6 +476,7 @@ All API requests and errors are logged with structured logging including:
 ### Metrics
 
 The API exposes Prometheus-compatible metrics at `/metrics` (if enabled):
+
 - Request count and duration
 - Error rates
 - Database connection pool status
@@ -520,6 +556,7 @@ curl -X POST https://api.copykit.io/api/leads \
 ## Changelog
 
 ### Version 1.0.0 (2025-01-27)
+
 - Initial API release
 - Webhook handling for Stripe and PayPal
 - Lead management endpoints

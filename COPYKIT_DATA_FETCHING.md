@@ -1,10 +1,13 @@
 # CopyKit Data Fetching Implementation
 
-This document describes the data fetching functionality implemented for the CopyKit project, which allows the React frontend to dynamically fetch data from the CopyKit URL (`https://copykit-gv4rmq.manus.space`).
+This document describes the data fetching functionality implemented for the
+CopyKit project, which allows the React frontend to dynamically fetch data from
+the CopyKit URL (`https://copykit-gv4rmq.manus.space`).
 
 ## Overview
 
 The implementation provides a complete data fetching solution that:
+
 - Fetches data from the CopyKit URL
 - Parses HTML content to extract relevant information
 - Provides API endpoints for the React frontend
@@ -13,7 +16,7 @@ The implementation provides a complete data fetching solution that:
 
 ## Architecture
 
-```
+```text
 CopyKit URL (https://copykit-gv4rmq.manus.space)
     ↓ (HTTP Request)
 Flask API (/api/copykit/*)
@@ -26,9 +29,11 @@ UI Components (Dynamic rendering)
 ## API Endpoints
 
 ### 1. `/api/copykit/data` (GET)
+
 Fetches and parses data from the CopyKit URL.
 
 **Response:**
+
 ```json
 {
   "status": "success",
@@ -46,9 +51,11 @@ Fetches and parses data from the CopyKit URL.
 ```
 
 ### 2. `/api/copykit/products` (GET)
+
 Returns product data from the database with real-time pricing.
 
 **Response:**
+
 ```json
 {
   "status": "success",
@@ -69,9 +76,11 @@ Returns product data from the database with real-time pricing.
 ```
 
 ### 3. `/api/copykit/analytics` (GET)
+
 Returns analytics and performance data.
 
 **Response:**
+
 ```json
 {
   "status": "success",
@@ -93,6 +102,7 @@ Returns analytics and performance data.
 ### Custom Hooks
 
 #### `useCopyKitData()`
+
 Fetches general data from the CopyKit URL.
 
 ```javascript
@@ -109,6 +119,7 @@ function MyComponent() {
 ```
 
 #### `useProducts()`
+
 Fetches product data with fallback to hardcoded products.
 
 ```javascript
@@ -131,6 +142,7 @@ function PricingSection() {
 ```
 
 #### `useAnalytics()`
+
 Fetches analytics data for display.
 
 ```javascript
@@ -173,21 +185,25 @@ const lead = await copyKitAPI.createLead({
 ## Features
 
 ### 1. Dynamic Data Loading
+
 - Products are loaded from the database
 - Real-time pricing and availability
 - Fallback to hardcoded data if API fails
 
 ### 2. Loading States
+
 - Skeleton loading animations
 - Error handling with user-friendly messages
 - Graceful degradation
 
 ### 3. Analytics Integration
+
 - Real-time metrics display
 - Revenue and order tracking
 - Performance indicators
 
 ### 4. Error Handling
+
 - Network error recovery
 - API error fallbacks
 - User-friendly error messages
@@ -214,7 +230,8 @@ REACT_APP_ENABLE_REAL_TIME_DATA=true
 ### Dependencies
 
 **Backend (Flask API):**
-```
+
+```text
 flask==3.0.0
 flask-cors==4.0.0
 requests==2.31.0
@@ -223,6 +240,7 @@ prisma==0.11.0
 ```
 
 **Frontend (React):**
+
 ```json
 {
   "react": "^19.1.0",
@@ -235,11 +253,13 @@ prisma==0.11.0
 ### Test Scripts
 
 1. **Basic URL Test:**
+
    ```bash
    python3 test_copykit_data.py
    ```
 
 2. **Demonstration:**
+
    ```bash
    python3 demo_copykit_fetch.py
    ```
@@ -247,12 +267,14 @@ prisma==0.11.0
 ### Manual Testing
 
 1. Start the Flask API:
+
    ```bash
    cd /workspace
    python3 api/app.py
    ```
 
 2. Start the React app:
+
    ```bash
    cd /workspace/web/copykit-landing
    pnpm install
@@ -264,16 +286,19 @@ prisma==0.11.0
 ## Error Scenarios
 
 ### 1. CopyKit URL Unavailable
+
 - Falls back to hardcoded product data
 - Shows error message to user
 - Continues to function normally
 
 ### 2. API Server Down
+
 - React app uses fallback data
 - Loading states indicate issues
 - User experience remains smooth
 
 ### 3. Database Connection Issues
+
 - API returns error responses
 - Frontend handles gracefully
 - Fallback mechanisms activate
@@ -281,16 +306,19 @@ prisma==0.11.0
 ## Performance Considerations
 
 ### 1. Caching
+
 - API responses can be cached
 - React Query could be added for advanced caching
 - Static data served from CDN
 
 ### 2. Loading Optimization
+
 - Skeleton screens for better UX
 - Progressive loading of components
 - Lazy loading for non-critical data
 
 ### 3. Error Recovery
+
 - Automatic retry mechanisms
 - Exponential backoff for failed requests
 - User-initiated refresh options
@@ -298,16 +326,19 @@ prisma==0.11.0
 ## Future Enhancements
 
 ### 1. Real-time Updates
+
 - WebSocket connections for live data
 - Server-sent events for updates
 - Push notifications for changes
 
 ### 2. Advanced Analytics
+
 - Real-time dashboard
 - Historical data visualization
 - Predictive analytics
 
 ### 3. A/B Testing
+
 - Dynamic content variations
 - User behavior tracking
 - Conversion optimization
@@ -327,7 +358,8 @@ prisma==0.11.0
 
 3. **JSON Serialization Errors:**
    - Fixed: Meta description tags are now properly serialized as strings
-   - The API extracts `content` attribute from meta tags instead of returning Tag objects
+   - The API extracts `content` attribute from meta tags instead of returning
+     Tag objects
    - Both cases (with/without meta description) are handled correctly
 
 4. **Styling Issues:**
@@ -350,6 +382,11 @@ if (DEBUG) {
 
 ## Conclusion
 
-The CopyKit data fetching implementation provides a robust, scalable solution for dynamic content loading. It includes comprehensive error handling, loading states, and fallback mechanisms to ensure a smooth user experience even when external services are unavailable.
+The CopyKit data fetching implementation provides a robust, scalable solution
+for dynamic content loading. It includes comprehensive error handling, loading
+states, and fallback mechanisms to ensure a smooth user experience even when
+external services are unavailable.
 
-The modular architecture makes it easy to extend with additional data sources and features, while the React hooks provide a clean, reusable interface for components to access dynamic data.
+The modular architecture makes it easy to extend with additional data sources
+and features, while the React hooks provide a clean, reusable interface for
+components to access dynamic data.

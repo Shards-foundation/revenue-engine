@@ -5,6 +5,10 @@
 
 set -e  # Exit on any error
 
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+DOCKER_AVAILABLE=0
+
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -34,6 +38,17 @@ command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
+# docker-compose or the Docker Compose plugin
+compose() {
+    if command_exists docker-compose; then
+        docker-compose "$@"
+    elif command_exists docker && docker compose version >/dev/null 2>&1; then
+        docker compose "$@"
+    else
+        return 127
+    fi
+}
+
 # Check prerequisites
 check_prerequisites() {
     log_info "Checking prerequisites..."
@@ -48,14 +63,6 @@ check_prerequisites() {
         missing_deps+=("node")
     fi
     
-    if ! command_exists docker; then
-        missing_deps+=("docker")
-    fi
-    
-    if ! command_exists docker-compose; then
-        missing_deps+=("docker-compose")
-    fi
-    
     if ! command_exists pnpm; then
         missing_deps+=("pnpm")
     fi
@@ -65,8 +72,16 @@ check_prerequisites() {
         log_info "Please install the missing dependencies and run this script again."
         exit 1
     fi
+
+    if command_exists docker && compose version >/dev/null 2>&1; then
+        DOCKER_AVAILABLE=1
+        log_success "Docker Compose is available"
+    else
+        DOCKER_AVAILABLE=0
+        log_warning "Docker Compose is not available; services will not be started"
+    fi
     
-    log_success "All prerequisites are installed"
+    log_success "Required prerequisites are installed"
 }
 
 # Setup environment
@@ -102,7 +117,7 @@ install_python_deps() {
     
     # API dependencies
     if [ -f api/requirements.txt ]; then
-        pip install -r api/requirements.txt
+        python3 -m pip install -r api/requirements.txt
         log_success "Installed API dependencies"
     else
         log_error "api/requirements.txt not found"
@@ -111,13 +126,13 @@ install_python_deps() {
     
     # Automation dependencies
     if [ -f automations/requirements.txt ]; then
-        pip install -r automations/requirements.txt
+        python3 -m pip install -r automations/requirements.txt
         log_success "Installed automation dependencies"
     fi
     
     # Test dependencies
     if [ -f tests/requirements.txt ]; then
-        pip install -r tests/requirements.txt
+        python3 -m pip install -r tests/requirements.txt
         log_success "Installed test dependencies"
     fi
 }
@@ -152,7 +167,7 @@ setup_database() {
     
     # Run database migrations
     if [ -f scripts/migrate.py ]; then
-        python scripts/migrate.py
+        python3 scripts/migrate.py
         log_success "Database migrations completed"
     else
         log_error "Migration script not found"
@@ -190,7 +205,7 @@ run_tests() {
     # Run Python tests
     if [ -f tests/e2e_tests.py ]; then
         log_info "Running E2E tests..."
-        python -m pytest tests/e2e_tests.py -v || log_warning "Some tests failed"
+        python3 -m pytest tests/e2e_tests.py -v || log_warning "Some tests failed"
     fi
     
     # Run frontend tests
@@ -208,21 +223,21 @@ start_services() {
     
     if [ -f docker-compose.yml ]; then
         # Start core services
-        docker-compose up -d postgres redis
+        compose up -d postgres redis
         
         # Wait for services to be ready
         log_info "Waiting for services to be ready..."
         sleep 10
         
         # Start API
-        docker-compose up -d api
+        compose up -d api
         
         # Wait for API to be ready
         log_info "Waiting for API to be ready..."
         sleep 15
         
         # Start frontend
-        docker-compose up -d frontend
+        compose up -d frontend
         
         log_success "All services started"
         log_info "API: http://localhost:5000"
@@ -253,7 +268,7 @@ show_status() {
     fi
     
     # Check database
-    if docker-compose ps postgres | grep -q "Up"; then
+    if compose ps postgres | grep -q "Up"; then
         log_success "Database is running"
     else
         log_warning "Database is not running"
@@ -263,8 +278,12 @@ show_status() {
 # Cleanup function
 cleanup() {
     log_info "Cleaning up..."
-    docker-compose down
-    log_success "Cleanup completed"
+    if command_exists docker && compose version >/dev/null 2>&1; then
+        compose down
+        log_success "Cleanup completed"
+    else
+        log_warning "Docker Compose is not available; nothing to stop"
+    fi
 }
 
 # Main function
@@ -282,11 +301,17 @@ main() {
             install_python_deps
             install_node_deps
             setup_database
-            build_docker_images
-            start_services
-            show_status
+            if [ "$DOCKER_AVAILABLE" -eq 1 ]; then
+                log_warning "Docker Compose is installed, but service startup is not part of setup."
+                log_warning "The frontend Compose service has no Dockerfile, so images are not built."
+            fi
             ;;
         "start")
+            check_prerequisites
+            if [ "$DOCKER_AVAILABLE" -ne 1 ]; then
+                log_error "Docker Compose is required to start services"
+                exit 1
+            fi
             start_services
             show_status
             ;;
@@ -306,8 +331,8 @@ main() {
             echo "Usage: $0 [command]"
             echo
             echo "Commands:"
-            echo "  setup    - Complete setup (default)"
-            echo "  start    - Start all services"
+            echo "  setup    - Install dependencies (default)"
+            echo "  start    - Start Compose services"
             echo "  stop     - Stop all services"
             echo "  test     - Run tests"
             echo "  status   - Show service status"
@@ -326,9 +351,6 @@ main() {
     log_success "Setup completed successfully!"
     echo "=========================================="
 }
-
-# Trap to ensure cleanup on script exit
-trap cleanup EXIT
 
 # Run main function
 main "$@"

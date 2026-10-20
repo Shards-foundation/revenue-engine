@@ -1,6 +1,8 @@
 # Revenue Engine Deployment Guide
 
-This comprehensive guide walks you through deploying the entire Revenue Engine system from scratch. By the end of this guide, you will have a fully operational autonomous revenue-generation system running in production.
+This comprehensive guide walks you through deploying the entire Revenue Engine
+system from scratch. By the end of this guide, you will have a fully operational
+autonomous revenue-generation system running in production.
 
 ## Table of Contents
 
@@ -62,26 +64,30 @@ Before deploying, ensure you have:
 
 You can apply the schema using either raw SQL or Prisma.
 
-**Option A: Using SQL Editor (Supabase)**
+#### Option A: Using SQL Editor (Supabase)
 
 1. In your Supabase dashboard, go to **SQL Editor**.
 2. Click **New query**.
-3. Copy the contents of `database/001_initial_schema.sql` and paste it into the editor.
+3. Copy the contents of `database/001_initial_schema.sql` and paste it into the
+   editor.
 4. Click **Run** to execute the migration.
 
-**Option B: Using Prisma CLI**
+#### Option B: Using Prisma CLI
 
 1. Install Prisma CLI:
+
    ```bash
    npm install -g prisma
    ```
 
 2. Set your `DATABASE_URL` in `.env`:
-   ```
+
+   ```text
    DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@[YOUR-PROJECT-REF].supabase.co:5432/postgres"
    ```
 
 3. Generate Prisma client and push schema:
+
    ```bash
    cd database
    prisma generate
@@ -107,28 +113,32 @@ You can apply the schema using either raw SQL or Prisma.
 
 ### Option A: Deploy to Google Cloud Run
 
-**Step 1: Build and Push Docker Image**
+#### Step 1: Build and Push Docker Image
 
 1. Install Google Cloud SDK:
+
    ```bash
    curl https://sdk.cloud.google.com | bash
    gcloud init
    ```
 
 2. Authenticate Docker with Google Container Registry:
+
    ```bash
    gcloud auth configure-docker
    ```
 
 3. Build and tag your Docker image:
+
    ```bash
    docker build -t gcr.io/[YOUR-PROJECT-ID]/omni-revenue-agent-api:latest .
    docker push gcr.io/[YOUR-PROJECT-ID]/omni-revenue-agent-api:latest
    ```
 
-**Step 2: Deploy to Cloud Run**
+#### Step 2: Deploy to Cloud Run
 
 1. Deploy the container:
+
    ```bash
    gcloud run deploy omni-revenue-agent-api \
      --image gcr.io/[YOUR-PROJECT-ID]/omni-revenue-agent-api:latest \
@@ -138,13 +148,15 @@ You can apply the schema using either raw SQL or Prisma.
      --set-env-vars DATABASE_URL="[YOUR-DATABASE-URL]",STRIPE_SECRET_KEY="[YOUR-KEY]"
    ```
 
-2. Note the service URL provided (e.g., `https://omni-revenue-agent-api-xxxxx-uc.a.run.app`).
+2. Note the service URL provided (e.g.,
+   `https://omni-revenue-agent-api-xxxxx-uc.a.run.app`).
 
-**Step 3: Configure Environment Variables**
+#### Step 3: Configure Environment Variables
 
 1. Go to Google Cloud Console → Cloud Run → Your Service.
 2. Click **Edit & Deploy New Revision**.
-3. Under **Variables & Secrets**, add all required environment variables from your `.env` file.
+3. Under **Variables & Secrets**, add all required environment variables from
+   your `.env` file.
 4. Click **Deploy**.
 
 ### Option B: Deploy to DigitalOcean App Platform
@@ -163,6 +175,7 @@ You can apply the schema using either raw SQL or Prisma.
 
 1. Ensure your React app is in `web/copykit-landing`.
 2. Test the build locally:
+
    ```bash
    cd web/copykit-landing
    pnpm run build
@@ -193,30 +206,33 @@ You can apply the schema using either raw SQL or Prisma.
 
 ### Stripe Configuration
 
-**Step 1: Create Products in Stripe**
+#### Step 1: Create Products in Stripe
 
 1. Go to [Stripe Dashboard](https://dashboard.stripe.com) → **Products**.
 2. Create three products:
 
-   **Product 1: CopyKit Monthly**
-   - Name: `CopyKit Monthly Subscription`
-   - Price: `£49.00 GBP` / month
-   - Billing: Recurring monthly
-   - Metadata: `sku=COPYKIT-MONTHLY`
+#### Product 1: CopyKit Monthly
 
-   **Product 2: CopyKit Bundle**
-   - Name: `CopyKit Full Funnel Pack`
-   - Price: `£199.00 GBP`
-   - Billing: One-time
-   - Metadata: `sku=COPYKIT-BUNDLE`
+- Name: `CopyKit Monthly Subscription`
+- Price: `£49.00 GBP` / month
+- Billing: Recurring monthly
+- Metadata: `sku=COPYKIT-MONTHLY`
 
-   **Product 3: Daily Briefing**
-   - Name: `Daily Briefing Monthly`
-   - Price: `£15.00 GBP` / month
-   - Billing: Recurring monthly
-   - Metadata: `sku=DAILYBRIEF-MONTHLY`
+#### Product 2: CopyKit Bundle
 
-**Step 2: Configure Webhooks**
+- Name: `CopyKit Full Funnel Pack`
+- Price: `£199.00 GBP`
+- Billing: One-time
+- Metadata: `sku=COPYKIT-BUNDLE`
+
+#### Product 3: Daily Briefing
+
+- Name: `Daily Briefing Monthly`
+- Price: `£15.00 GBP` / month
+- Billing: Recurring monthly
+- Metadata: `sku=DAILYBRIEF-MONTHLY`
+
+#### Step 2: Configure Webhooks
 
 1. Go to **Developers** → **Webhooks**.
 2. Click **Add endpoint**.
@@ -230,7 +246,7 @@ You can apply the schema using either raw SQL or Prisma.
    - `charge.dispute.created`
 5. Copy the **Signing secret** and save it as `STRIPE_WEBHOOK_SECRET`.
 
-**Step 3: Get API Keys**
+#### Step 3: Get API Keys
 
 1. Go to **Developers** → **API keys**.
 2. Copy the **Secret key** and save it as `STRIPE_SECRET_KEY`.
@@ -238,20 +254,20 @@ You can apply the schema using either raw SQL or Prisma.
 
 ### PayPal Configuration
 
-**Step 1: Create PayPal App**
+#### Step 1: Create PayPal App
 
 1. Go to [PayPal Developer Dashboard](https://developer.paypal.com).
 2. Click **Apps & Credentials**.
 3. Create a new app.
 4. Copy the **Client ID** and **Secret**.
 
-**Step 2: Create Subscription Plans**
+#### Step 2: Create Subscription Plans
 
 1. Go to **Products** → **Subscriptions**.
 2. Create plans for each subscription product.
 3. Note the **Plan ID** for each.
 
-**Step 3: Configure Webhooks**
+#### Step 3: Configure Webhooks
 
 1. Go to **Webhooks**.
 2. Add a new webhook: `https://your-api-domain.com/webhooks/paypal`
@@ -269,13 +285,16 @@ You can apply the schema using either raw SQL or Prisma.
 
 1. SSH into your server.
 2. Edit crontab:
+
    ```bash
    crontab -e
    ```
 
 3. Add the daily briefing job:
+
    ```cron
-   0 7 * * * /usr/bin/python3 /path/to/automations/daily_briefing.py >> /var/log/daily-briefing.log 2>&1
+   0 7 * * * /usr/bin/python3 /path/to/automations/daily_briefing.py \
+     >> /var/log/daily-briefing.log 2>&1
    ```
 
 ### Option B: Google Cloud Scheduler
@@ -293,7 +312,8 @@ You can apply the schema using either raw SQL or Prisma.
 
 1. Create a new Zap in Zapier.
 2. **Trigger**: Schedule by Zapier → Every Day at 7:00 AM.
-3. **Action**: Webhooks by Zapier → POST to `https://your-api-domain.com/automations/daily-briefing`.
+3. **Action**: Webhooks by Zapier → POST to
+   `https://your-api-domain.com/automations/daily-briefing`.
 
 ---
 
@@ -304,7 +324,8 @@ You can apply the schema using either raw SQL or Prisma.
 1. Go to [Sentry](https://sentry.io) and create a new project.
 2. Select **Flask** as the platform.
 3. Copy the **DSN** and save it as `SENTRY_DSN`.
-4. The `sentry_config.py` file will automatically initialize Sentry when the API starts.
+4. The `sentry_config.py` file will automatically initialize Sentry when the API
+   starts.
 
 ### Cloudflare Rate Limiting
 
@@ -323,11 +344,11 @@ You can apply the schema using either raw SQL or Prisma.
 2. Update your domain registrar's nameservers to Cloudflare's.
 3. Add DNS records:
 
-   | Type  | Name | Content                          | Proxy Status |
-   |-------|------|----------------------------------|--------------|
-   | A     | @    | [Vercel IP from Vercel settings] | Proxied      |
-   | CNAME | www  | yourdomain.com                   | Proxied      |
-   | CNAME | api  | [Cloud Run URL]                  | Proxied      |
+   | Type | Name | Content | Proxy Status |
+   | --- | --- | --- | --- |
+   | A | @ | [Vercel IP from Vercel settings] | Proxied |
+   | CNAME | www | yourdomain.com | Proxied |
+   | CNAME | api | [Cloud Run URL] | Proxied |
 
 4. Enable **Always Use HTTPS** under SSL/TLS settings.
 
@@ -361,11 +382,13 @@ pytest tests/e2e_tests.py -v
 
 ### Issue: Database connection fails
 
-**Solution**: Verify your `DATABASE_URL` is correct and includes the password. Check that your IP is allowed in Supabase settings (or use connection pooling).
+**Solution**: Verify your `DATABASE_URL` is correct and includes the password.
+Check that your IP is allowed in Supabase settings (or use connection pooling).
 
 ### Issue: Stripe webhook not receiving events
 
-**Solution**: 
+**Solution**:
+
 1. Verify the webhook URL is correct and publicly accessible.
 2. Check the webhook signing secret matches `STRIPE_WEBHOOK_SECRET`.
 3. Look at the webhook logs in Stripe Dashboard → Developers → Webhooks.
@@ -384,7 +407,8 @@ pytest tests/e2e_tests.py -v
 
 ### Issue: Automation scripts not running
 
-**Solution**: 
+**Solution**:
+
 1. Check cron job syntax with `crontab -l`.
 2. Verify the Python path is correct.
 3. Check logs for errors: `tail -f /var/log/daily-briefing.log`.
@@ -402,5 +426,5 @@ After successful deployment:
 5. **Monitor KPIs** in the `kpi_daily` table.
 6. **Scale resources** as needed based on traffic.
 
-Congratulations! Your Revenue Engine is now live and generating revenue autonomously.
-
+Congratulations! Your Revenue Engine is now live and generating revenue
+autonomously.

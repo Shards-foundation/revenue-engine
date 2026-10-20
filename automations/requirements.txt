@@ -1,0 +1,3 @@
+requests==2.33.0
+prisma==0.11.0
+openai==1.109.1
