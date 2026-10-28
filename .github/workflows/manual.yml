@@ -1,0 +1,23 @@
+name: Manual workflow
+on:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: Person to greet
+        default: World
+        required: true
+        type: string
+permissions:
+  contents: none
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  greet:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Send greeting
+        env:
+          GREET_NAME: ${{ inputs.name }}
+        run: printf 'Hello %s\n' "$GREET_NAME"

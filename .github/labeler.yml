@@ -1,0 +1,17 @@
+documentation:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "**/*.md"
+enhancement:
+  - changed-files:
+      - any-glob-to-any-file:
+          - "api/**"
+          - "database/**"
+          - "scripts/**"
+          - "web/**"
+          - "demo_copykit_fetch.py"
+          - "test_copykit_data.py"
+github_actions:
+  - changed-files:
+      - any-glob-to-any-file:
+          - ".github/workflows/**"
