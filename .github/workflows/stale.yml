@@ -2,15 +2,21 @@ name: Mark stale issues and pull requests
 on:
   schedule:
     - cron: '33 23 * * *'
-permissions: {}
+permissions:
+  contents: none
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   stale:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
     permissions:
       issues: write
       pull-requests: write
     steps:
-      - uses: actions/stale@v5
+      - name: Mark inactive issues and pull requests
+        uses: actions/stale@4391f3da665fdf50b6810c1a66712fb9ba21aa93 # v11.0.0
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
           stale-issue-message: 'This issue has been marked stale because it has had no recent activity. It will close after 7 more days without activity.'
